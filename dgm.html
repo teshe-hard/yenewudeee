@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff4b7d, #6a5acd, #ff4b7d, #ff1493);
+            background-size: 400% 400%;
+            animation: bg 10s infinite;
+        }
+
+        @keyframes bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            margin-top: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 45px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px white; }
+            to { text-shadow: 0 0 30px yellow, 0 0 40px pink; }
+        }
+
+        .photo {
+            width: 260px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px white;
+            animation: float 3s infinite ease-in-out;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            font-size: 120px;
+            line-height: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .message {
+            font-size: 22px;
+            padding: 10px;
+        }
+
+        #countdown {
+            font-size: 28px;
+            color: yellow;
+            margin: 10px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: #ff4b7d;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: pink;
+            color: white;
+        }
+
+        #surprise {
+            display: none;
+            font-size: 30px;
+            margin-top: 20px;
+            animation: bounce 0.8s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: fixed;
+            color: red;
+            font-size: 24px;
+            animation: heart 5s linear forwards;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes heart {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎂 Happy Birthday My Love 🎂</h1>
+    <h2>❤️ My Beautiful Queen ❤️</h2>
+
+    <!-- Photo placeholder - you can replace with your actual image -->
+    <div class="photo">❤️</div>
+
+    <p class="message">
+        Happy Birthday my love ❤️<br>
+        You are my happiness, my life, my everything 💕<br>
+        I love you forever and ever 🌹
+    </p>
+
+    <div id="countdown"></div>
+
+    <button onclick="surprise()">Click for Surprise 🎁</button>
+
+    <div id="surprise">🎉 I LOVE YOU SO MUCH ❤️ 🎉</div>
+</div>
+
+<canvas id="fire"></canvas>
+
+<script>
+    // Countdown timer
+    var birthday = new Date("March 12, 2026 00:00:00").getTime();
+    var countdownInterval = setInterval(function() {
+        var now = new Date().getTime();
+        var diff = birthday - now;
+
+        if (diff < 0) {
+            document.getElementById("countdown").innerHTML = "🎉 HAPPY BIRTHDAY! 🎉";
+            clearInterval(countdownInterval);
+            return;
+        }
+
+        var d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        var s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML =
+            d + " days " + h + " hours " + m + " minutes " + s + " seconds";
+    }, 1000);
+
+    // Canvas setup
+    var canvas = document.getElementById("fire");
+    var ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Particles array
+    var particles = [];
+
+    // Fireworks animation (continuous)
+    function startFireworks() {
+        setInterval(function() {
+            // Create a burst of particles
+            for (var i = 0; i < 50; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8,
+                    life: 80 + Math.random() * 40,
+                    color: "hsl(" + Math.random() * 360 + ", 100%, 60%)"
+                });
+            }
+        }, 800);
+    }
+
+    // Hearts animation (continuous)
+    function startHearts() {
+        setInterval(function() {
+            var heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.className = "heart";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (15 + Math.random() * 30) + "px";
+            document.body.appendChild(heart);
+
+            // Remove after animation ends
+            setTimeout(function() {
+                if (heart.parentNode) heart.remove();
+            }, 5000);
+        }, 300);
+    }
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Clear canvas with fade effect
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Update and draw particles
+        for (var i = particles.length - 1; i >= 0; i--) {
+            var p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= 1;
+
+            // Fade out
+            ctx.globalAlpha = p.life / 100;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, 4, 4);
+
+            if (p.life <= 0) {
+                particles.splice(i, 1);
+            }
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    // Start animations
+    startFireworks();
+    startHearts();
+    animate();
+
+    // Surprise button action
+    function surprise() {
+        document.getElementById("surprise").style.display = "block";
+
+        // Add an extra burst of particles
+        for (var i = 0; i < 200; i++) {
+            particles.push({
+                x: canvas.width / 2,
+                y: canvas.height / 2,
+                vx: (Math.random() - 0.5) * 12,
+                vy: (Math.random() - 0.5) * 12,
+                life: 100,
+                color: "hsl(" + Math.random() * 360 + ", 100%, 60%)"
+            });
+        }
+    }
+</script>
+</body>
+</html>
